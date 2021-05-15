@@ -1,0 +1,38 @@
+{% extends 'base_dashboards.html'%}
+
+
+
+
+{% block content_dashboards %}
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+   var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+   socket.on('post_card', function(data) {
+      console.log("received data :" + data);
+       $strong.val($strong.val() + data);
+    })
+  });
+</script>
+
+<div class="container">
+
+    <h1 class="text-center"> 你好！ 用户 <strong class="text-success"> {{ current_user.firstname }} {{ current_user.lastname }} </strong> 欢迎使用机房温度监控 </h1>
+        <hr>
+
+
+         <h3 class="text-center"> --> 你现在有 <strong class="text-success" id="c"> {{ c }} </strong> 设备已在平台注册 <-- </h3><br>
+    <section>
+          <h4><span class="font-weight-bold text-danger"> Dashboard </span> 为个人资料 </h4>
+          <h4>  在 <span class="font-weight-bold text-danger"> Cards Manager </span> 可以注册新的卡片 </h4>
+          <h4> 了解预留api的信息，可以查看如下界面 <span class="font-weight-bold text-danger"> About API ? </span></h4>
+    </section>
+
+     </div>
+ </div>
+
+{% endblock %}
