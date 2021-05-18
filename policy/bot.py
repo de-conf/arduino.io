@@ -1,5 +1,3 @@
-from app.models import User
-
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -9,12 +7,13 @@ from email.header import Header
 from email.utils import parseaddr,formataddr
 import os
 import time
+from app.models import User
 
 from_address = '201607070511@stumail.xsyu.edu.cn'
 from_passwd = 'HMQfFtcn2mFD56d'
 smtp_server = 'stumail.xsyu.edu.cn' # port 465
 
-admin_mail = '2420528384@qq.com'    # 烟雾警报收件人
+receive_mail =  User.query.all().pop().email   # 烟雾警报收件人
 #test_mail = 'chenjiagen88@gmail.com'
 
 def format_address(from_info):
@@ -38,4 +37,4 @@ def send_html(send_to_address):
     send_server.quit()
 
 def alm_bot():
-    send_html(admin_mail)
+    send_html(receive_mail)

@@ -66,6 +66,7 @@ class User(PaginatedAPIMxin, db.Model, UserMixin):
             'firstname': self.firstname,
             'lastname': self.lastname,
             'last_seen': self.last_seen,  # isoformat() + 'Z',  ISO 8601 format, 'Z' timezone for UTC
+            'eamil': self.email,
             'about_me': self.about_me,
             'cards': self.cards.count(),
             '_links': {
