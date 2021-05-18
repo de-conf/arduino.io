@@ -1,4 +1,4 @@
-# my arduino Data display and alert
+# my arduino Data display and alarm
 
 This is an IoT platform developped using flask where people can veiw the temperature, humidity and gaz state
 
