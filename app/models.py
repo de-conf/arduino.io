@@ -8,7 +8,6 @@ from app import login
 from datetime import datetime
 from flask import url_for, jsonify
 
-
 # Paginated representation mixi, class
 class PaginatedAPIMxin(object):
     @staticmethod

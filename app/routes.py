@@ -121,27 +121,13 @@ def dashboard():
 @App.route('/chart_data_temperature/')
 def chart_data_temperature():
     def generate():
-        # while True:
-        #     # global temp
-        #     temperature = db.session.query(Dht11).order_by(Dht11.id.desc()).first()
-        #     print(temperature)
-        #     t = temperature.temperature
-        #     # print(len(temperature_list) - 1, t, temperature_list[-1])
-
-        #     json_data = json.dumps(
-        #         {'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        #          'value': t})
-        #     #temp.append(t)
-        #     yield "data:" + json_data + "\n\n"
-        #     time.sleep(3)
-
         temperature = db.session.query(Dht11).order_by(Dht11.id.desc()).first()
         print(temperature)
         t = temperature.temperature
         # print(len(temperature_list) - 1, t, temperature_list[-1])
 
         json_data = json.dumps(
-            {'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            {'time': temperature.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
                 'value': t})
         #temp.append(t)
         return json_data
@@ -157,7 +143,7 @@ def chart_data_humidity():
         humidity = db.session.query(Dht11).order_by(Dht11.id.desc()).first()
         h = humidity.humidity
         json_data = json.dumps(
-            {'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            {'time': humidity.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
                 'value': h})
         return json_data
     return Response(generate(), mimetype='application/json')
@@ -168,7 +154,7 @@ def chart_data_gaz():
         gaz = db.session.query(Gaz).order_by(Gaz.id.desc()).first()
         g = gaz.gaz
         json_data = json.dumps(
-            {'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            {'time': gaz.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
                 'value': g})
         return json_data
     return Response(generate(), mimetype='application/json')
@@ -181,21 +167,21 @@ def chart_data_gaz():
 @login_required
 def dht11():
     actives = [0, 0, 0, 1, 0, 0]  # dasboard, dht11, gaz
-    return render_template('dht11.html', actives=actives, title=" Temperature ", time=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    return render_template('dht11.html', actives=actives, title=" Temperature ", time=db.session.query(Dht11).order_by(Dht11.id.desc()).first().timestamp.strftime('%Y-%m-%d %H:%M:%S'))
 
 
 @App.route('/humidity/')
 @login_required
 def humidity():
     actives = [0, 0 ,0, 0, 1, 0]
-    return render_template('humidity.html', actives=actives, title="Humidity")
+    return render_template('humidity.html', actives=actives, title="Humidity",time=db.session.query(Dht11).order_by(Dht11.id.desc()).first().timestamp.strftime('%Y-%m-%d %H:%M:%S'))
 
 
 @App.route('/gaz')
 @login_required
 def gaz():
     actives = [0, 0, 0, 0, 0, 1]
-    return render_template('gaz.html', actives=actives, title="gaz")
+    return render_template('gaz.html', actives=actives, title="gaz",time=db.session.query(Gaz).order_by(Gaz.id.desc()).first().timestamp.strftime('%Y-%m-%d %H:%M:%S'))
 
 
 @App.route('/cards_edit/', methods=['GET', 'POST'])

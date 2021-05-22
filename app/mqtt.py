@@ -6,6 +6,8 @@ from flask_socketio import SocketIO
 from flask import request
 from flask_login import current_user
 from policy import bot
+import time
+from datetime import datetime
 
 mqtt = Mqtt(App)
 socketio = SocketIO(App)
@@ -62,8 +64,8 @@ def handle_mqtt_message(client, userdata, message):
         bot.alm_bot()
     #print('REQUST --->', request.base_url)
     #current_user_cards = Cards.query.filtre_by()
-    dht11 = Dht11(temperature=str(temp), humidity=str(hum), card_id=int(card_id))
-    gaz = Gaz(gaz=str(gaz),card_id=int(card_id))
+    dht11 = Dht11(temperature=str(temp), humidity=str(hum), card_id=int(card_id),timestamp=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    gaz = Gaz(gaz=str(gaz),card_id=int(card_id),timestamp=datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     db.session.add(dht11)
     db.session.add(gaz)
     db.session.commit()
